@@ -11,6 +11,6 @@ namespace BookCatalogue.Service
         ResponseMessage bookAddDetail(Book book);
         ResponseMessage bookRemoveDetail(int bookid);
         ResponseMessage bookUpdateDetail(Book book);
-        ResponseMessage GetBookData(BookSearch bookSearch);
+        Task<List<BookResult>> GetBookData(BookSearch bookSearch);
       }
 }

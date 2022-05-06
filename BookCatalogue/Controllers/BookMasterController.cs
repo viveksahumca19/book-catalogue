@@ -16,7 +16,7 @@ namespace BookCatalogue.Controllers
     [ApiController]
     public class BookMasterController : ControllerBase
     {
-        IBookService iBookService;
+     private readonly   IBookService iBookService;
 
         public BookMasterController(IBookService _ibookService)
         {
@@ -28,20 +28,29 @@ namespace BookCatalogue.Controllers
         /// <param name="bookSearch"></param>
         /// <returns></returns>
         [HttpGet("GetBooksData")]
-        public IActionResult GetBooksData(BookSearch bookSearch)
+        public  async Task< IActionResult> GetBooksData(BookSearch bookSearch)
         {
             var objresponse = new ResponseMessage();
             try
             {
-                objresponse=iBookService.GetBookData(bookSearch);
+                  
+                var result = await  iBookService.GetBookData(bookSearch);
+                if (result.Count == 0)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return Ok(result);
+                }
             }
             catch (Exception ex)
             {
-                objresponse.statusCode= (int)HttpStatusCode.ExpectationFailed;
-                objresponse.response_Message = ex.Message;
+                 
+                return BadRequest();
             }
 
-              return Ok(objresponse);
+              
         }
         /// <summary>
         /// this service use for adding new information in Book table
@@ -73,17 +82,23 @@ namespace BookCatalogue.Controllers
         public IActionResult UpdateBook(Book objbook)
         {
             var objresponse = new ResponseMessage();
-            try
+            //try
+            //{
+            if (objbook.bookId == 0)
+            { return NoContent(); }
+            else
             {
                 objresponse = iBookService.bookUpdateDetail(objbook);
+                return Ok(objresponse);
             }
-            catch (Exception ex)
-            {
-                objresponse.statusCode = (int)HttpStatusCode.ExpectationFailed;
-                objresponse.response_Message = ex.Message;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    objresponse.statusCode = (int)HttpStatusCode.ExpectationFailed;
+            //    objresponse.response_Message = ex.Message;
+            //}
 
-            return Ok(objresponse);
+            //return Ok(objresponse);
         }
 
         /// <summary>
@@ -95,17 +110,23 @@ namespace BookCatalogue.Controllers
         public IActionResult DeleteBookData(int bookIdint)
         {
             var objresponse = new ResponseMessage();
-            try
+            //try
+            //{
+            if (bookIdint == 0)
+            { return NoContent(); }
+            else
             {
                 objresponse = iBookService.bookRemoveDetail(bookIdint);
+                return Ok(objresponse);
             }
-            catch (Exception ex)
-            {
-                objresponse.statusCode = (int)HttpStatusCode.ExpectationFailed;
-                objresponse.response_Message = ex.Message;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    objresponse.statusCode = (int)HttpStatusCode.ExpectationFailed;
+            //    objresponse.response_Message = ex.Message;
+            //}
 
-            return Ok(objresponse);
+            
         }
     }
 }

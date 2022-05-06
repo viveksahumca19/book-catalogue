@@ -30,7 +30,7 @@ namespace BookCatalogue.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Publication Date")]
-        public DateTime publicationDate { get; set; }
+        public DateTime? publicationDate { get; set; }
 
 
         public Boolean isActive { get; set; }

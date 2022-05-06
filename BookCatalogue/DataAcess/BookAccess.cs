@@ -95,7 +95,7 @@ namespace BookCatalogue.DataAcess
             return errorMessage;
         }
 
-        public ResponseMessage GetBookData(BookSearch bookSearch)
+        public async Task< List<BookResult>> GetBookData(BookSearch bookSearch)
         {
             errorMessage.statusCode = (int)HttpStatusCode.OK;
             List<BookResult> objBooklist = new List<BookResult>();
@@ -126,7 +126,7 @@ namespace BookCatalogue.DataAcess
                 errorMessage.statusCode = (int)HttpStatusCode.ExpectationFailed;
                 errorMessage.response_Message = ex.Message;
             }
-            return errorMessage;
+            return objBooklist;
         }
     }
 }
